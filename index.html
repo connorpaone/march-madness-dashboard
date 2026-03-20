@@ -9,402 +9,155 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --apple: #BED344;
-      --charcoal: #545454;
-      --white: #FFFFFF;
-      --kiwi: #A3C144;
-      --lime: #D2E84F;
-      --melon: #DFF489;
-      --slate: #8C8C8C;
-      --steel: #C8C8C8;
-      --platinum: #EBEBEB;
-      --bg: #f4f6ef;
-      --text: #2f2f2f;
-      --muted: #6f6f6f;
-      --line: rgba(84,84,84,0.14);
-      --shadow: 0 18px 42px rgba(84,84,84,0.12);
-      --radius: 22px;
-      --gold: #c8a227;
-      --silver: #9ea3a8;
-      --bronze: #b97a2b;
-      --up: #5f8f1f;
-      --down: #9a4b32;
+      --apple:#BED344; --charcoal:#545454; --white:#FFFFFF; --slate:#8C8C8C;
+      --bg:#f4f6ef; --line:rgba(84,84,84,0.14); --shadow:0 18px 42px rgba(84,84,84,0.12);
+      --radius:22px; --gold:#c8a227; --silver:#9ea3a8; --bronze:#b97a2b; --up:#5f8f1f; --down:#9a4b32;
     }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; }
-    body {
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(190,211,68,0.24), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(163,193,68,0.16), transparent 22%),
-        linear-gradient(180deg, #fafbf7 0%, var(--bg) 100%);
-      overflow: hidden;
-    }
-    .shell {
-      height: 100vh;
-      padding: 18px;
-      display: grid;
-      grid-template-rows: 104px 1fr 44px;
-      gap: 14px;
-    }
-    .topbar, .footer, .panel {
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-    .topbar, .footer {
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.88));
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-    }
-    .brand { display: flex; align-items: center; gap: 18px; min-width: 0; }
-    .badge {
-      width: 62px; height: 62px; border-radius: 18px; display: grid; place-items: center;
-      font-size: 28px; font-weight: 800; color: var(--charcoal);
-      background: linear-gradient(180deg, var(--lime), var(--apple));
-      border: 1px solid rgba(84,84,84,0.08); flex: 0 0 auto;
-    }
-    .eyebrow {
-      color: var(--muted); text-transform: uppercase; letter-spacing: 0.18em;
-      font-size: 12px; font-weight: 800; margin-bottom: 8px;
-    }
-    .title {
-      font-size: 38px; line-height: 1; font-weight: 800; letter-spacing: -0.03em;
-      color: var(--charcoal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
-    .pill {
-      display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px; border-radius: 999px;
-      background: rgba(255,255,255,0.78); border: 1px solid rgba(84,84,84,0.1);
-      font-size: 14px; color: var(--charcoal); font-weight: 700; white-space: nowrap;
-    }
-    .dot {
-      width: 10px; height: 10px; border-radius: 50%; background: var(--apple);
-      box-shadow: 0 0 0 4px rgba(190,211,68,0.22);
-    }
-    .panel {
-      min-height: 0; overflow: hidden; background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.9));
-      display: grid; grid-template-rows: 84px 64px 1fr;
-    }
-    .panel-head {
-      display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
-      border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(210,232,79,0.14), rgba(255,255,255,0.3));
-    }
-    .panel-title { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--charcoal); }
-    .panel-sub { color: var(--muted); font-size: 15px; font-weight: 700; }
-    .lb-head, .lb-row {
-      display: grid; grid-template-columns: 96px minmax(240px, 1fr) 130px 150px 110px;
-      gap: 14px; align-items: center; padding: 0 24px;
-    }
-    .lb-head {
-      color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em;
-      font-weight: 800; border-bottom: 1px solid var(--line); background: rgba(235,235,235,0.4);
-    }
-    .rows { min-height: 0; overflow: hidden; padding: 10px 12px 12px; position: relative; }
-    .rows-track { position: absolute; inset: 10px 12px 12px 12px; display: flex; flex-direction: column; will-change: transform; }
-    .lb-row {
-      position: relative; height: 72px; margin-bottom: 10px; border-radius: 18px;
-      border: 1px solid rgba(84,84,84,0.07); background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,251,247,0.92));
-      overflow: hidden; flex: 0 0 auto;
-    }
-    .lb-row:nth-child(even) { background: linear-gradient(180deg, rgba(245,247,240,0.96), rgba(255,255,255,0.92)); }
-    .lb-row::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: var(--steel); }
-    .lb-row.top-1::before { background: var(--gold); }
-    .lb-row.top-2::before { background: var(--silver); }
-    .lb-row.top-3::before { background: var(--bronze); }
-    .lb-row.dim { opacity: 0.84; }
-    .rank { font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: var(--charcoal); }
-    .top-1 .rank { color: var(--gold); }
-    .top-2 .rank { color: var(--silver); }
-    .top-3 .rank { color: var(--bronze); }
-    .name { font-size: 30px; font-weight: 700; color: var(--charcoal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .metric, .delta { text-align: right; font-size: 32px; font-weight: 800; letter-spacing: -0.04em; color: var(--charcoal); }
-    .delta { font-size: 24px; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
-    .delta.up { color: var(--up); }
-    .delta.down { color: var(--down); }
-    .delta.flat { color: var(--slate); }
-    .empty-state { height: 100%; display: grid; place-items: center; padding: 30px; }
-    .empty-card {
-      width: min(760px, 100%); padding: 30px; border-radius: 24px;
-      background: rgba(255,255,255,0.90); border: 1px solid rgba(84,84,84,0.1);
-    }
-    .empty-card h3 { margin: 0 0 10px; font-size: 30px; color: var(--charcoal); }
-    .empty-card p { margin: 0 0 12px; font-size: 19px; line-height: 1.5; color: #4e4e4e; }
-    .footer { font-size: 14px; color: var(--muted); font-weight: 700; }
-    .footer strong { color: var(--charcoal); }
-    @media (max-width: 1400px) {
-      .title { font-size: 32px; }
-      .lb-head, .lb-row { grid-template-columns: 84px minmax(180px, 1fr) 110px 130px 90px; gap: 12px; }
-      .name { font-size: 26px; }
-      .metric { font-size: 28px; }
-      .rank { font-size: 30px; }
-    }
+    *{box-sizing:border-box} html,body{margin:0;height:100%}
+    body{font-family:Inter,system-ui;background:linear-gradient(180deg,#fafbf7,#f4f6ef);color:#2f2f2f;overflow:hidden}
+
+    .shell{height:100vh;padding:18px;display:grid;grid-template-rows:104px 60px 1fr 44px;gap:12px}
+    .topbar,.footer,.panel{border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow)}
+    .topbar,.footer{display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#fff}
+
+    .brand{display:flex;gap:16px;align-items:center}
+    .badge{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-weight:800;background:var(--apple)}
+    .title{font-size:34px;font-weight:800}
+
+    /* SCORE TICKER */
+    .ticker{display:flex;align-items:center;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);background:#fff;padding:0 12px}
+    .ticker-track{display:flex;gap:28px;white-space:nowrap;will-change:transform}
+    .game{font-weight:700}
+    .score{font-weight:800}
+
+    .panel{display:grid;grid-template-rows:64px 1fr;background:#fff}
+    .panel-head{display:flex;justify-content:space-between;align-items:center;padding:0 24px;border-bottom:1px solid var(--line)}
+    .lb-head,.lb-row{display:grid;grid-template-columns:90px 1fr 120px 140px 100px;gap:12px;padding:0 24px;align-items:center}
+    .lb-head{font-size:13px;text-transform:uppercase;color:var(--slate);border-bottom:1px solid var(--line)}
+    .rows{overflow:hidden;position:relative;padding:8px}
+    .rows-track{position:absolute;inset:8px;display:flex;flex-direction:column}
+
+    .lb-row{height:68px;margin-bottom:8px;border-radius:14px;border:1px solid rgba(0,0,0,0.05);display:grid;grid-template-columns:90px 1fr 120px 140px 100px;align-items:center;padding:0 16px}
+    .lb-row.top-1{border-left:6px solid var(--gold)}
+    .lb-row.top-2{border-left:6px solid var(--silver)}
+    .lb-row.top-3{border-left:6px solid var(--bronze)}
+
+    .rank{font-size:28px;font-weight:800}
+    .name{font-size:26px;font-weight:700;overflow:hidden;text-overflow:ellipsis}
+    .metric{text-align:right;font-size:28px;font-weight:800}
+    .delta{text-align:right;font-size:20px}
+
+    .footer{font-size:14px}
   </style>
 </head>
 <body>
   <div class="shell">
-    <header class="topbar">
-      <div class="brand">
-        <div class="badge">MM</div>
-        <div>
-          <div class="eyebrow">Tri Pointe Homes</div>
-          <div class="title">March Madness Leaderboard</div>
-        </div>
-      </div>
-      <div class="meta">
-        <div class="pill"><span class="dot"></span><span id="refreshLabel">Auto-refresh: 5 min</span></div>
-        <div class="pill">Updated <span id="updatedAt">—</span></div>
-      </div>
-    </header>
 
-    <section class="panel">
+    <div class="topbar">
+      <div class="brand"><div class="badge">MM</div><div class="title">Leaderboard</div></div>
+      <div>Auto-refresh 5m</div>
+    </div>
+
+    <!-- SCORE TICKER -->
+    <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
+
+    <div class="panel">
       <div class="panel-head">
-        <div>
-          <div class="panel-title">Office Challenge Standings</div>
-          <div class="panel-sub" id="participantCount">Loading participants...</div>
-        </div>
-        <div class="panel-sub">GitHub Pages ready</div>
+        <div>Standings</div>
+        <div id="count"></div>
       </div>
 
       <div class="lb-head">
-        <div>Rank</div>
-        <div>Name</div>
-        <div style="text-align:right;">Points</div>
-        <div style="text-align:right;">Max Points</div>
-        <div style="text-align:right;">Delta</div>
+        <div>Rank</div><div>Name</div><div style="text-align:right">Pts</div><div style="text-align:right">Max</div><div style="text-align:right">Δ</div>
       </div>
 
-      <div class="rows" id="leaderboardRows"></div>
-    </section>
+      <div class="rows" id="rows"></div>
+    </div>
 
-    <footer class="footer">
-      <div>Source: <strong>Published Google Sheet</strong></div>
-      <div id="footerStatus">Waiting for leaderboard</div>
-    </footer>
+    <div class="footer">Google Sheets + NCAA Scores</div>
   </div>
 
-  <script>
-    const CONFIG = {
-      sheetId: '14W_0zczXrnkCaMxAzEHBkOrapSksXiEZu1MtSxEkqVA',
-      gid: '0',
-      refreshMs: 5 * 60 * 1000,
-      emphasizeTop: 10,
-      autoScrollPauseMs: 800,
-      autoScrollStepRows: 1,
-      autoScrollEnabled: true
-    };
+<script>
+const CONFIG={sheetId:'14W_0zczXrnkCaMxAzEHBkOrapSksXiEZu1MtSxEkqVA',gid:'0',refreshMs:300000}
 
-    let autoScrollTimer = null;
-    let autoScrollAnimation = null;
-    let jsonpScript = null;
+/* ---------- LEADERBOARD ---------- */
+function normalize(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,'')}
+function pick(m,n){for(let k of n){if(m[normalize(k)]!=null)return m[normalize(k)]}return -1}
 
-    function normalizeHeader(str) {
-      return String(str || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-    }
+window.handleSheetResponse=function(p){
+  const cols=p.table.cols.map(c=>c.label||c.id)
+  const map={}; cols.forEach((c,i)=>map[normalize(c)]=i)
+  const rI=pick(map,['rank']); const nI=pick(map,['name']); const pI=pick(map,['points']); const mI=pick(map,['max'])
+  const rows=p.table.rows.map(r=>(r.c||[]).map(x=>x?x.v:''))
+  const clean=rows.map(r=>({rank:r[rI],name:r[nI],pts:r[pI],max:r[mI]})).filter(r=>r.name)
 
-    function pickColumn(map, names) {
-      for (const name of names) {
-        const key = normalizeHeader(name);
-        if (map[key] !== undefined) return map[key];
-      }
-      return -1;
-    }
+  const mount=document.getElementById('rows')
+  mount.innerHTML='<div class="rows-track" id="track"></div>'
+  const track=document.getElementById('track')
 
-    function movementFromRanks(rank, prevRank) {
-      if (!Number.isFinite(prevRank) || !Number.isFinite(rank)) return '—';
-      if (rank < prevRank) return '↑' + (prevRank - rank);
-      if (rank > prevRank) return '↓' + (rank - prevRank);
-      return '—';
-    }
+  clean.forEach((r,i)=>{
+    const d=document.createElement('div')
+    d.className='lb-row '+(i<3?`top-${i+1}`:'')
+    d.innerHTML=`<div class="rank">${r.rank}</div><div class="name">${r.name}</div><div class="metric">${r.pts}</div><div class="metric">${r.max}</div><div class="delta">—</div>`
+    track.appendChild(d)
+  })
+  document.getElementById('count').textContent=clean.length+' players'
+  autoScroll()
+}
 
-    function deltaClass(value) {
-      if (!value || value === '—') return 'flat';
-      if (String(value).includes('↑')) return 'up';
-      if (String(value).includes('↓')) return 'down';
-      return 'flat';
-    }
+function loadSheet(){
+  const s=document.createElement('script')
+  s.src=`https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/gviz/tq?gid=${CONFIG.gid}&tqx=out:json;responseHandler:handleSheetResponse`
+  document.body.appendChild(s)
+}
 
-    function setUpdatedTime() {
-      const now = new Date();
-      document.getElementById('updatedAt').textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    }
+/* ---------- AUTO SCROLL ---------- */
+function autoScroll(){
+  const track=document.getElementById('track')
+  if(!track)return
+  let y=0
+  setInterval(()=>{
+    y+=78
+    if(y>track.scrollHeight) y=0
+    track.style.transform=`translateY(-${y}px)`
+  },900)
+}
 
-    function stopAutoScroll() {
-      if (autoScrollTimer) clearInterval(autoScrollTimer);
-      if (autoScrollAnimation) cancelAnimationFrame(autoScrollAnimation);
-      autoScrollTimer = null;
-      autoScrollAnimation = null;
-    }
+/* ---------- SCORE TICKER ---------- */
+async function loadScores(){
+  try{
+    const res=await fetch('https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1')
+    const data=await res.json()
+    const games=data.games.filter(g=>g.game.championshipId)
 
-    function startAutoScroll() {
-      stopAutoScroll();
-      if (!CONFIG.autoScrollEnabled) return;
+    const ticker=document.getElementById('ticker')
+    ticker.innerHTML=''
 
-      const viewport = document.getElementById('leaderboardRows');
-      const track = document.getElementById('leaderboardTrack');
-      if (!viewport || !track) return;
+    games.slice(0,10).forEach(g=>{
+      const game=g.game
+      const el=document.createElement('div')
+      el.className='game'
+      el.textContent=`${game.away.names.short} ${game.away.score} - ${game.home.score} ${game.home.names.short}`
+      ticker.appendChild(el)
+    })
 
-      const items = Array.from(track.children);
-      if (items.length < 2) return;
+    animateTicker()
+  }catch(e){console.log('scores failed')}
+}
 
-      const rowHeight = items[0].getBoundingClientRect().height + 10;
-      const visibleHeight = viewport.clientHeight - 22;
-      const totalHeight = track.scrollHeight;
-      if (totalHeight <= visibleHeight + 8) return;
+function animateTicker(){
+  const t=document.getElementById('ticker')
+  let x=0
+  setInterval(()=>{
+    x+=1
+    t.style.transform=`translateX(-${x}px)`
+    if(x>t.scrollWidth/2) x=0
+  },20)
+}
 
-      let offset = 0;
-      const maxOffset = totalHeight - visibleHeight;
-
-      autoScrollTimer = setInterval(() => {
-        let target = offset + rowHeight * CONFIG.autoScrollStepRows;
-        if (target > maxOffset + 2) target = 0;
-
-        const start = offset;
-        const distance = target - start;
-        const duration = 350;
-        const startTime = performance.now();
-
-        function easeInOut(t) {
-          return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-        }
-
-        function animate(now) {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          offset = start + distance * easeInOut(progress);
-          track.style.transform = `translateY(${-offset}px)`;
-          if (progress < 1) {
-            autoScrollAnimation = requestAnimationFrame(animate);
-          } else {
-            offset = target;
-            track.style.transform = `translateY(${-offset}px)`;
-          }
-        }
-
-        autoScrollAnimation = requestAnimationFrame(animate);
-      }, CONFIG.autoScrollPauseMs + 350);
-    }
-
-    function renderLeaderboard(rows) {
-      const mount = document.getElementById('leaderboardRows');
-      mount.innerHTML = '<div class="rows-track" id="leaderboardTrack"></div>';
-      const track = document.getElementById('leaderboardTrack');
-      document.getElementById('participantCount').textContent = `${rows.length} participants`;
-
-      rows.forEach((row, idx) => {
-        const el = document.createElement('div');
-        const medalClass = idx === 0 ? 'top-1' : idx === 1 ? 'top-2' : idx === 2 ? 'top-3' : '';
-        const dimClass = idx >= CONFIG.emphasizeTop ? 'dim' : '';
-        const delta = row.delta || movementFromRanks(row.rank, row.prevRank);
-        el.className = `lb-row ${medalClass} ${dimClass}`.trim();
-        el.innerHTML = `
-          <div class="rank">${row.rank ?? ''}</div>
-          <div class="name">${row.name ?? ''}</div>
-          <div class="metric">${row.points ?? ''}</div>
-          <div class="metric">${row.maxPoints ?? ''}</div>
-          <div class="delta ${deltaClass(delta)}">${delta}</div>
-        `;
-        track.appendChild(el);
-      });
-
-      requestAnimationFrame(startAutoScroll);
-    }
-
-    function showError(message) {
-      document.getElementById('participantCount').textContent = 'Leaderboard failed to load';
-      document.getElementById('leaderboardRows').innerHTML = `
-        <div class="empty-state">
-          <div class="empty-card">
-            <h3>Leaderboard load error</h3>
-            <p>${message}</p>
-            <p>Check that the Google Sheet is still published and the Leaderboard tab is still on gid 0.</p>
-          </div>
-        </div>
-      `;
-      document.getElementById('footerStatus').textContent = 'Leaderboard error';
-    }
-
-    function parseRowsFromGoogleTable(table) {
-      const headers = table.cols.map(c => c.label || c.id || '');
-      const headerMap = {};
-      headers.forEach((c, i) => { headerMap[normalizeHeader(c)] = i; });
-
-      const rankIdx = pickColumn(headerMap, ['Rank', 'Rnk']);
-      const nameIdx = pickColumn(headerMap, ['Name', 'Entry', 'Entry Name', 'Player']);
-      const pointsIdx = pickColumn(headerMap, ['Points', 'Pts', 'Score']);
-      const maxIdx = pickColumn(headerMap, ['MaxPoints', 'Max Points', 'Max', 'Pts Remaining', 'Potential']);
-      const prevIdx = pickColumn(headerMap, ['PrevRank', 'Previous Rank']);
-      const deltaIdx = pickColumn(headerMap, ['Delta', 'Movement']);
-
-      if (rankIdx < 0 || nameIdx < 0 || pointsIdx < 0 || maxIdx < 0) {
-        throw new Error('Expected headers not found. Needed Rank, Name, Points, and MaxPoints.');
-      }
-
-      return table.rows
-        .map(r => (r.c || []).map(cell => cell ? (cell.f ?? cell.v ?? '') : ''))
-        .filter(r => r.some(v => String(v).trim() !== ''))
-        .map(r => {
-          const rank = Number(String(r[rankIdx] ?? '').replace(/[^0-9.-]/g, ''));
-          const points = Number(String(r[pointsIdx] ?? '').replace(/[^0-9.-]/g, ''));
-          const maxPoints = Number(String(r[maxIdx] ?? '').replace(/[^0-9.-]/g, ''));
-          const prevRank = prevIdx >= 0 ? Number(String(r[prevIdx] ?? '').replace(/[^0-9.-]/g, '')) : NaN;
-          return {
-            rank: Number.isFinite(rank) ? rank : '',
-            name: String(r[nameIdx] ?? '').trim(),
-            points: Number.isFinite(points) ? points : '',
-            maxPoints: Number.isFinite(maxPoints) ? maxPoints : '',
-            prevRank,
-            delta: deltaIdx >= 0 ? String(r[deltaIdx] ?? '').trim() : ''
-          };
-        })
-        .filter(r => r.name)
-        .sort((a, b) => (a.rank || 9999) - (b.rank || 9999) || (b.points || 0) - (a.points || 0) || (b.maxPoints || 0) - (a.maxPoints || 0) || a.name.localeCompare(b.name));
-    }
-
-    window.handleSheetResponse = function(payload) {
-      try {
-        if (!payload || !payload.table) throw new Error('Google Sheets returned no table data.');
-        const cleaned = parseRowsFromGoogleTable(payload.table);
-        if (!cleaned.length) throw new Error('No leaderboard rows found in the sheet.');
-        renderLeaderboard(cleaned);
-        document.getElementById('footerStatus').textContent = 'Leaderboard loaded';
-        setUpdatedTime();
-      } catch (err) {
-        console.error(err);
-        showError(String(err.message || err));
-      } finally {
-        if (jsonpScript && jsonpScript.parentNode) {
-          jsonpScript.parentNode.removeChild(jsonpScript);
-          jsonpScript = null;
-        }
-      }
-    };
-
-    function loadLeaderboard() {
-      if (jsonpScript && jsonpScript.parentNode) {
-        jsonpScript.parentNode.removeChild(jsonpScript);
-      }
-      const url =
-        'https://docs.google.com/spreadsheets/d/' + CONFIG.sheetId +
-        '/gviz/tq?gid=' + CONFIG.gid +
-        '&tqx=out:json;responseHandler:handleSheetResponse';
-      jsonpScript = document.createElement('script');
-      jsonpScript.src = url + '&_ts=' + Date.now();
-      jsonpScript.onerror = function() {
-        showError('Could not load Google Sheets script response. Check that the sheet is published or publicly viewable.');
-      };
-      document.body.appendChild(jsonpScript);
-    }
-
-    setUpdatedTime();
-    loadLeaderboard();
-    setInterval(() => {
-      setUpdatedTime();
-      loadLeaderboard();
-    }, CONFIG.refreshMs);
-  </script>
+loadSheet()
+loadScores()
+setInterval(()=>location.reload(),CONFIG.refreshMs)
+</script>
 </body>
 </html>
