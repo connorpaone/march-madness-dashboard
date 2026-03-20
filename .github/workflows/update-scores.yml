@@ -2,7 +2,7 @@ name: Update NCAA Scores
 
 on:
   schedule:
-    - cron: "*/1 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,15 +16,21 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
 
-      - name: Fetch NCAA scores
+      - name: Fetch NCAA scores for today
         run: |
-          curl -L "https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1" -o raw_scores.json
+          YEAR=$(date -u +%Y)
+          MONTH=$(date -u +%m)
+          DAY=$(date -u +%d)
+          URL="https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1/$YEAR/$MONTH/$DAY"
+          echo "Fetching $URL"
+          curl -L "$URL" -o raw_scores.json
 
-      - name: Filter tournament games and write scores.json
+      - name: Build scores.json
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
+          from datetime import datetime, timezone
 
           raw = Path("raw_scores.json")
           out = Path("scores.json")
@@ -73,7 +79,7 @@ jobs:
               })
 
           payload = {
-              "updatedAt": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+              "updatedAt": datetime.now(timezone.utc).isoformat(),
               "games": filtered
           }
 
