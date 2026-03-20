@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-20T23:23:12.049733Z",
+  "updatedAt": "2026-03-20T23:26:39.091031+00:00",
   "games": [
     {
       "status": "FINAL",
@@ -102,11 +102,11 @@
       "round": "First Round",
       "away": {
         "name": "Iowa",
-        "score": "22"
+        "score": "24"
       },
       "home": {
         "name": "Clemson",
-        "score": "12"
+        "score": "14"
       }
     },
     {
