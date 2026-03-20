@@ -526,27 +526,83 @@
       return side.score;
     }
 
-    async function loadScores() {
-      const body = document.getElementById('scoresBody');
+    function scoreValue(side) {
+  if (!side) return '—';
+  if (side.score === '' || side.score === null || side.score === undefined) return '—';
+  return side.score;
+}
 
-      try {
-        const res = await fetch(CONFIG.scoresUrl + '?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+function liveDetail(game) {
+  const state = String(game.gameState || '').toLowerCase();
+  const period = game.currentPeriod ? String(game.currentPeriod) : '';
+  const clock = game.contestClock ? String(game.contestClock) : '';
 
-        const data = await res.json();
-        const games = Array.isArray(data.games) ? data.games : [];
-        const updatedAt = data.updatedAt || '';
+  if (state === 'live') {
+    return ['LIVE', period, clock].filter(Boolean).join(' • ');
+  }
 
-        document.getElementById('scoresCount').textContent = games.length
-          ? `${games.length} games${updatedAt ? ' • updated ' + new Date(updatedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : ''}`
-          : 'No tournament games';
+  if (state === 'final') {
+    return game.status || 'Final';
+  }
 
-        body.innerHTML = '';
+  return game.startTime || game.status || 'Scheduled';
+}
 
-        if (!games.length) {
-          body.innerHTML = '<div class="message">No tournament games found in scores.json.</div>';
-          return;
-        }
+async function loadScores() {
+  const body = document.getElementById('scoresBody');
+
+  try {
+    const res = await fetch(CONFIG.scoresUrl + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    const data = await res.json();
+    const games = Array.isArray(data.games) ? data.games : [];
+    const updatedAt = data.updatedAt || '';
+
+    document.getElementById('scoresCount').textContent = games.length
+      ? `${games.length} games${updatedAt ? ' • updated ' + new Date(updatedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : ''}`
+      : 'No tournament games';
+
+    body.innerHTML = '';
+
+    if (!games.length) {
+      body.innerHTML = '<div class="message">No tournament games found in scores.json.</div>';
+      return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'score-grid';
+
+    games.forEach(game => {
+      const awayScore = scoreValue(game.away);
+      const homeScore = scoreValue(game.home);
+      const detail = liveDetail(game);
+
+      const card = document.createElement('div');
+      card.className = 'score-card';
+      card.innerHTML = `
+        <div class="score-top">
+          <div>${detail}</div>
+          <div>${game.round || 'Tournament'}</div>
+        </div>
+        <div class="team-row">
+          <div class="team-name">${(game.away && game.away.name) || 'Away'}</div>
+          <div class="team-score">${awayScore}</div>
+        </div>
+        <div class="team-row">
+          <div class="team-name">${(game.home && game.home.name) || 'Home'}</div>
+          <div class="team-score">${homeScore}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    body.appendChild(grid);
+  } catch (err) {
+    body.innerHTML = '<div class="message">Scores failed to load: ' + String(err.message || err) + '</div>';
+    document.getElementById('scoresCount').textContent = 'Feed error';
+  }
+}
 
         const grid = document.createElement('div');
         grid.className = 'score-grid';
