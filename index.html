@@ -412,50 +412,49 @@
     }
 
     async function loadScores() {
-      const body = document.getElementById('scoresBody');
-      try {
-        const res = await fetch(CONFIG.scoresUrl, { cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        const allGames = Array.isArray(data.games) ? data.games : [];
-        const games = allGames.filter(isTournamentGame);
+  const body = document.getElementById('scoresBody');
+  try {
+    const res = await fetch(CONFIG.scoresUrl + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
 
-        document.getElementById('scoresCount').textContent = games.length ? (games.length + ' games') : 'No tournament games';
-        body.innerHTML = '';
+    const data = await res.json();
+    const games = Array.isArray(data.games) ? data.games : [];
 
-        if (!games.length) {
-          body.innerHTML = '<div class="message">No men\'s NCAA tournament games are available in the current feed.</div>';
-          return;
-        }
+    document.getElementById('scoresCount').textContent = games.length
+      ? (games.length + ' games')
+      : 'No tournament games';
 
-        games.forEach(entry => {
-          const game = entry.game || entry;
-          const away = game.away || {};
-          const home = game.home || {};
-          const card = document.createElement('div');
-          card.className = 'score-card';
-          card.innerHTML = `
-            <div class="score-top">
-              <div>${gameStatus(game)}</div>
-              <div>${(game.championshipGame && game.championshipGame.round && game.championshipGame.round.title) || game.bracketRound || 'Tournament'}</div>
-            </div>
-            <div class="team-row">
-              <div class="team-name">${(away.names && (away.names.short || away.names.char6)) || 'Away'}</div>
-              <div class="team-score">${away.score ?? ''}</div>
-            </div>
-            <div class="team-row">
-              <div class="team-name">${(home.names && (home.names.short || home.names.char6)) || 'Home'}</div>
-              <div class="team-score">${home.score ?? ''}</div>
-            </div>
-          `;
-          body.appendChild(card);
-        });
-      } catch (err) {
-        body.innerHTML = '<div class="message">Scores failed to load: ' + String(err.message || err) + '</div>';
-        document.getElementById('scoresCount').textContent = 'Feed error';
-      }
+    body.innerHTML = '';
+
+    if (!games.length) {
+      body.innerHTML = '<div class="message">No men\\'s NCAA tournament games are currently in scores.json.</div>';
+      return;
     }
 
+    games.forEach(game => {
+      const card = document.createElement('div');
+      card.className = 'score-card';
+      card.innerHTML = `
+        <div class="score-top">
+          <div>${game.status || 'Live'}</div>
+          <div>${game.round || 'Tournament'}</div>
+        </div>
+        <div class="team-row">
+          <div class="team-name">${game.away?.name || 'Away'}</div>
+          <div class="team-score">${game.away?.score ?? ''}</div>
+        </div>
+        <div class="team-row">
+          <div class="team-name">${game.home?.name || 'Home'}</div>
+          <div class="team-score">${game.home?.score ?? ''}</div>
+        </div>
+      `;
+      body.appendChild(card);
+    });
+  } catch (err) {
+    body.innerHTML = '<div class="message">Scores failed to load: ' + String(err.message || err) + '</div>';
+    document.getElementById('scoresCount').textContent = 'Feed error';
+  }
+}
     loadLeaderboard();
     loadScores();
     setInterval(() => location.reload(), CONFIG.refreshMs);
