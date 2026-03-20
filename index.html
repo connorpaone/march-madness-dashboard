@@ -1,163 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>March Madness Leaderboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --apple:#BED344; --charcoal:#545454; --white:#FFFFFF; --slate:#8C8C8C;
-      --bg:#f4f6ef; --line:rgba(84,84,84,0.14); --shadow:0 18px 42px rgba(84,84,84,0.12);
-      --radius:22px; --gold:#c8a227; --silver:#9ea3a8; --bronze:#b97a2b; --up:#5f8f1f; --down:#9a4b32;
-    }
-    *{box-sizing:border-box} html,body{margin:0;height:100%}
-    body{font-family:Inter,system-ui;background:linear-gradient(180deg,#fafbf7,#f4f6ef);color:#2f2f2f;overflow:hidden}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>March Madness Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter;background:#f4f6ef}
+.container{display:flex;height:100vh}
+.left{width:50%;padding:16px;overflow:hidden}
+.right{width:50%;padding:16px;background:#fff;overflow:hidden}
 
-    .shell{height:100vh;padding:18px;display:grid;grid-template-rows:104px 60px 1fr 44px;gap:12px}
-    .topbar,.footer,.panel{border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow)}
-    .topbar,.footer{display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#fff}
+.header{font-size:32px;font-weight:800;margin-bottom:10px}
 
-    .brand{display:flex;gap:16px;align-items:center}
-    .badge{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-weight:800;background:var(--apple)}
-    .title{font-size:34px;font-weight:800}
+.rows{height:calc(100% - 60px);overflow:hidden;position:relative}
+.track{position:absolute;width:100%}
+.row{display:flex;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #ddd;font-size:20px}
 
-    /* SCORE TICKER */
-    .ticker{display:flex;align-items:center;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);background:#fff;padding:0 12px}
-    .ticker-track{display:flex;gap:28px;white-space:nowrap;will-change:transform}
-    .game{font-weight:700}
-    .score{font-weight:800}
-
-    .panel{display:grid;grid-template-rows:64px 1fr;background:#fff}
-    .panel-head{display:flex;justify-content:space-between;align-items:center;padding:0 24px;border-bottom:1px solid var(--line)}
-    .lb-head,.lb-row{display:grid;grid-template-columns:90px 1fr 120px 140px 100px;gap:12px;padding:0 24px;align-items:center}
-    .lb-head{font-size:13px;text-transform:uppercase;color:var(--slate);border-bottom:1px solid var(--line)}
-    .rows{overflow:hidden;position:relative;padding:8px}
-    .rows-track{position:absolute;inset:8px;display:flex;flex-direction:column}
-
-    .lb-row{height:68px;margin-bottom:8px;border-radius:14px;border:1px solid rgba(0,0,0,0.05);display:grid;grid-template-columns:90px 1fr 120px 140px 100px;align-items:center;padding:0 16px}
-    .lb-row.top-1{border-left:6px solid var(--gold)}
-    .lb-row.top-2{border-left:6px solid var(--silver)}
-    .lb-row.top-3{border-left:6px solid var(--bronze)}
-
-    .rank{font-size:28px;font-weight:800}
-    .name{font-size:26px;font-weight:700;overflow:hidden;text-overflow:ellipsis}
-    .metric{text-align:right;font-size:28px;font-weight:800}
-    .delta{text-align:right;font-size:20px}
-
-    .footer{font-size:14px}
-  </style>
+.ticker{display:flex;flex-direction:column;gap:10px}
+.game{font-size:20px;font-weight:600}
+</style>
 </head>
 <body>
-  <div class="shell">
+<div class="container">
 
-    <div class="topbar">
-      <div class="brand"><div class="badge">MM</div><div class="title">Leaderboard</div></div>
-      <div>Auto-refresh 5m</div>
-    </div>
+<div class="left">
+<div class="header">Leaderboard</div>
+<div class="rows" id="rows"></div>
+</div>
 
-    <!-- SCORE TICKER -->
-    <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
+<div class="right">
+<div class="header">Live Scores</div>
+<div class="ticker" id="scores"></div>
+</div>
 
-    <div class="panel">
-      <div class="panel-head">
-        <div>Standings</div>
-        <div id="count"></div>
-      </div>
-
-      <div class="lb-head">
-        <div>Rank</div><div>Name</div><div style="text-align:right">Pts</div><div style="text-align:right">Max</div><div style="text-align:right">Δ</div>
-      </div>
-
-      <div class="rows" id="rows"></div>
-    </div>
-
-    <div class="footer">Google Sheets + NCAA Scores</div>
-  </div>
+</div>
 
 <script>
-const CONFIG={sheetId:'14W_0zczXrnkCaMxAzEHBkOrapSksXiEZu1MtSxEkqVA',gid:'0',refreshMs:300000}
-
-/* ---------- LEADERBOARD ---------- */
-function normalize(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,'')}
-function pick(m,n){for(let k of n){if(m[normalize(k)]!=null)return m[normalize(k)]}return -1}
-
-window.handleSheetResponse=function(p){
-  const cols=p.table.cols.map(c=>c.label||c.id)
-  const map={}; cols.forEach((c,i)=>map[normalize(c)]=i)
-  const rI=pick(map,['rank']); const nI=pick(map,['name']); const pI=pick(map,['points']); const mI=pick(map,['max'])
-  const rows=p.table.rows.map(r=>(r.c||[]).map(x=>x?x.v:''))
-  const clean=rows.map(r=>({rank:r[rI],name:r[nI],pts:r[pI],max:r[mI]})).filter(r=>r.name)
-
-  const mount=document.getElementById('rows')
-  mount.innerHTML='<div class="rows-track" id="track"></div>'
-  const track=document.getElementById('track')
-
-  clean.forEach((r,i)=>{
-    const d=document.createElement('div')
-    d.className='lb-row '+(i<3?`top-${i+1}`:'')
-    d.innerHTML=`<div class="rank">${r.rank}</div><div class="name">${r.name}</div><div class="metric">${r.pts}</div><div class="metric">${r.max}</div><div class="delta">—</div>`
-    track.appendChild(d)
-  })
-  document.getElementById('count').textContent=clean.length+' players'
-  autoScroll()
-}
+const SHEET_ID='14W_0zczXrnkCaMxAzEHBkOrapSksXiEZu1MtSxEkqVA'
 
 function loadSheet(){
   const s=document.createElement('script')
-  s.src=`https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/gviz/tq?gid=${CONFIG.gid}&tqx=out:json;responseHandler:handleSheetResponse`
+  s.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=0&tqx=out:json;responseHandler=handle`
   document.body.appendChild(s)
 }
 
-/* ---------- AUTO SCROLL ---------- */
-function autoScroll(){
+window.handle=function(p){
+  const rows=p.table.rows.map(r=>r.c.map(c=>c?c.v:''))
+  const mount=document.getElementById('rows')
+  mount.innerHTML='<div class="track" id="track"></div>'
   const track=document.getElementById('track')
-  if(!track)return
-  let y=0
-  setInterval(()=>{
-    y+=78
-    if(y>track.scrollHeight) y=0
-    track.style.transform=`translateY(-${y}px)`
-  },900)
+
+  rows.slice(1).forEach(r=>{
+    const d=document.createElement('div')
+    d.className='row'
+    d.innerHTML=`<div>${r[0]} ${r[1]}</div><div>${r[2]}</div>`
+    track.appendChild(d)
+  })
+
+  scroll()
 }
 
-/* ---------- SCORE TICKER ---------- */
+function scroll(){
+  const t=document.getElementById('track')
+  let y=0
+  setInterval(()=>{
+    y+=1
+    t.style.transform=`translateY(-${y}px)`
+    if(y>t.scrollHeight) y=0
+  },30)
+}
+
 async function loadScores(){
   try{
     const res=await fetch('https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1')
     const data=await res.json()
     const games=data.games.filter(g=>g.game.championshipId)
-
-    const ticker=document.getElementById('ticker')
-    ticker.innerHTML=''
-
-    games.slice(0,10).forEach(g=>{
-      const game=g.game
-      const el=document.createElement('div')
-      el.className='game'
-      el.textContent=`${game.away.names.short} ${game.away.score} - ${game.home.score} ${game.home.names.short}`
-      ticker.appendChild(el)
+    const el=document.getElementById('scores')
+    el.innerHTML=''
+    games.slice(0,12).forEach(g=>{
+      const gm=g.game
+      const div=document.createElement('div')
+      div.className='game'
+      div.textContent=`${gm.away.names.short} ${gm.away.score} - ${gm.home.score} ${gm.home.names.short}`
+      el.appendChild(div)
     })
-
-    animateTicker()
-  }catch(e){console.log('scores failed')}
-}
-
-function animateTicker(){
-  const t=document.getElementById('ticker')
-  let x=0
-  setInterval(()=>{
-    x+=1
-    t.style.transform=`translateX(-${x}px)`
-    if(x>t.scrollWidth/2) x=0
-  },20)
+  }catch(e){console.log('scores fail')}
 }
 
 loadSheet()
 loadScores()
-setInterval(()=>location.reload(),CONFIG.refreshMs)
+setInterval(()=>location.reload(),300000)
 </script>
 </body>
 </html>
