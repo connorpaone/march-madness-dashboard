@@ -1,8 +1,12 @@
 {
-  "updatedAt": "2026-03-20T23:26:39.091031+00:00",
+  "updatedAt": "2026-03-20T23:41:38.324744+00:00",
   "games": [
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "12:15 PM ET",
       "round": "First Round",
       "away": {
         "name": "Santa Clara",
@@ -15,6 +19,10 @@
     },
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "12:40 PM ET",
       "round": "First Round",
       "away": {
         "name": "Akron",
@@ -27,6 +35,10 @@
     },
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "1:35 PM ET",
       "round": "First Round",
       "away": {
         "name": "LIU",
@@ -39,6 +51,10 @@
     },
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "1:50 PM ET",
       "round": "First Round",
       "away": {
         "name": "Wright St.",
@@ -51,6 +67,10 @@
     },
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "3:07 PM ET",
       "round": "First Round",
       "away": {
         "name": "Tennessee St.",
@@ -63,6 +83,10 @@
     },
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "3:21 PM ET",
       "round": "First Round",
       "away": {
         "name": "Hofstra",
@@ -75,6 +99,10 @@
     },
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "4:14 PM ET",
       "round": "First Round",
       "away": {
         "name": "Utah St.",
@@ -87,6 +115,10 @@
     },
     {
       "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
+      "startTime": "4:32 PM ET",
       "round": "First Round",
       "away": {
         "name": "Miami (OH)",
@@ -98,55 +130,75 @@
       }
     },
     {
-      "status": "1ST HALF",
+      "status": "HALF",
+      "gameState": "live",
+      "currentPeriod": "HALFTIME",
+      "contestClock": "0:00",
+      "startTime": "6:50 PM ET",
       "round": "First Round",
       "away": {
         "name": "Iowa",
-        "score": "24"
+        "score": "32"
       },
       "home": {
         "name": "Clemson",
-        "score": "14"
+        "score": "25"
       }
     },
     {
-      "status": "7:25 PM ET",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "14:51",
+      "startTime": "7:25 PM ET",
       "round": "First Round",
       "away": {
         "name": "UNI",
-        "score": ""
+        "score": "2"
       },
       "home": {
         "name": "St. John's (NY)",
-        "score": ""
+        "score": "16"
       }
     },
     {
-      "status": "7:31 PM ET",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "13:28",
+      "startTime": "7:31 PM ET",
       "round": "First Round",
       "away": {
         "name": "UCF",
-        "score": ""
+        "score": "12"
       },
       "home": {
         "name": "UCLA",
-        "score": ""
+        "score": "13"
       }
     },
     {
-      "status": "7:35 PM ET",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "15:58",
+      "startTime": "7:35 PM ET",
       "round": "First Round",
       "away": {
         "name": "Queens (NC)",
-        "score": ""
+        "score": "7"
       },
       "home": {
         "name": "Purdue",
-        "score": ""
+        "score": "13"
       }
     },
     {
       "status": "9:25 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "9:25 PM ET",
       "round": "First Round",
       "away": {
         "name": "Prairie View",
@@ -159,6 +211,10 @@
     },
     {
       "status": "9:45 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "9:45 PM ET",
       "round": "First Round",
       "away": {
         "name": "California Baptist",
@@ -171,6 +227,10 @@
     },
     {
       "status": "10:00 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "10:00 PM ET",
       "round": "First Round",
       "away": {
         "name": "Furman",
@@ -183,6 +243,10 @@
     },
     {
       "status": "10:10 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "10:10 PM ET",
       "round": "First Round",
       "away": {
         "name": "Missouri",
