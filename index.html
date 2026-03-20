@@ -32,7 +32,10 @@
     html, body { margin: 0; height: 100%; }
     body {
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #fafbf7 0%, var(--bg) 100%);
+      background:
+        radial-gradient(circle at top left, rgba(190,211,68,0.24), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(190,211,68,0.10), transparent 22%),
+        linear-gradient(180deg, #fafbf7 0%, var(--bg) 100%);
       color: var(--text);
       overflow: hidden;
     }
@@ -63,6 +66,7 @@
       display: flex;
       align-items: center;
       gap: 16px;
+      min-width: 0;
     }
 
     .badge {
@@ -74,12 +78,23 @@
       font-weight: 800;
       background: var(--apple);
       color: var(--charcoal);
+      flex: 0 0 auto;
     }
 
     .title {
       font-size: 28px;
       font-weight: 800;
       letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .submeta {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     .content {
@@ -117,6 +132,7 @@
       font-size: 14px;
       color: var(--muted);
       font-weight: 700;
+      text-align: right;
     }
 
     .lb-head, .lb-row {
@@ -177,7 +193,13 @@
     .lb-row.top-3::before { background: var(--bronze); }
 
     .rank { font-size: 28px; font-weight: 800; }
-    .name { font-size: 24px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .name {
+      font-size: 24px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .metric { text-align: right; font-size: 26px; font-weight: 800; }
     .delta { text-align: right; font-size: 18px; font-weight: 800; color: var(--slate); }
     .delta.up { color: var(--up); }
@@ -211,8 +233,19 @@
       padding: 4px 0;
     }
 
-    .team-name { font-size: 22px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .team-score { text-align: right; font-size: 28px; font-weight: 800; }
+    .team-name {
+      font-size: 22px;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .team-score {
+      text-align: right;
+      font-size: 28px;
+      font-weight: 800;
+    }
 
     .message {
       border: 1px dashed rgba(84,84,84,0.16);
@@ -229,6 +262,19 @@
       color: var(--muted);
       font-weight: 700;
     }
+
+    @media (max-width: 1400px) {
+      .content { grid-template-columns: 54% 46%; }
+      .lb-head, .lb-row {
+        grid-template-columns: 64px minmax(140px,1fr) 84px 100px 64px;
+        gap: 10px;
+      }
+      .name { font-size: 21px; }
+      .metric { font-size: 23px; }
+      .rank { font-size: 25px; }
+      .team-name { font-size: 20px; }
+      .team-score { font-size: 24px; }
+    }
   </style>
 </head>
 <body>
@@ -238,7 +284,7 @@
         <div class="badge">MM</div>
         <div class="title">March Madness Dashboard</div>
       </div>
-      <div class="panel-sub">Auto-refresh 5m</div>
+      <div class="submeta">Auto-refresh 5m</div>
     </header>
 
     <main class="content">
@@ -247,13 +293,15 @@
           <div class="panel-title">Leaderboard</div>
           <div class="panel-sub" id="leaderboardCount">Loading...</div>
         </div>
+
         <div class="lb-head">
           <div>Rank</div>
           <div>Name</div>
-          <div style="text-align:right;">Pts</div>
-          <div style="text-align:right;">Max</div>
+          <div style="text-align:right;">PTS</div>
+          <div style="text-align:right;">PTS REM</div>
           <div style="text-align:right;">Δ</div>
         </div>
+
         <div class="leaderboard-body" id="leaderboardBody">
           <div class="message">Loading leaderboard...</div>
         </div>
@@ -264,6 +312,7 @@
           <div class="panel-title">Live Scores</div>
           <div class="panel-sub" id="scoresCount">Checking feed...</div>
         </div>
+
         <div class="scores-body" id="scoresBody">
           <div class="message">Loading scores...</div>
         </div>
@@ -272,7 +321,7 @@
 
     <footer class="footer">
       <div>Leaderboard: Google Sheet</div>
-      <div>Scores: NCAA feed</div>
+      <div>Scores: scores.json</div>
     </footer>
   </div>
 
@@ -291,9 +340,11 @@
       const out = [];
       let current = '';
       let inQuotes = false;
+
       for (let i = 0; i < line.length; i++) {
         const ch = line[i];
         const next = line[i + 1];
+
         if (ch === '"') {
           if (inQuotes && next === '"') {
             current += '"';
@@ -308,6 +359,7 @@
           current += ch;
         }
       }
+
       out.push(current);
       return out.map(v => v.trim());
     }
@@ -315,6 +367,7 @@
     function parseCsv(text) {
       const lines = text.replace(/^\uFEFF/, '').split(/\r?\n/).filter(Boolean);
       if (!lines.length) return { headers: [], rows: [] };
+
       return {
         headers: parseCsvLine(lines[0]),
         rows: lines.slice(1).map(parseCsvLine)
@@ -344,49 +397,50 @@
 
     async function loadLeaderboard() {
       const body = document.getElementById('leaderboardBody');
+
       try {
         const res = await fetch(CONFIG.csvUrl, { cache: 'no-store' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
+
         const text = await res.text();
         const { headers, rows } = parseCsv(text);
 
-        const cleaned = rows.map(r => {
-  const rank = Number(String(r[rankIdx] || '').replace(/[^0-9.-]/g, ''));
-  const prevRank = Number(String(r[prevIdx] || '').replace(/[^0-9.-]/g, ''));
-  const delta = deltaIdx >= 0
-    ? String(r[deltaIdx] || '').trim()
-    : movementFromRanks(rank, prevRank);
+        const headerMap = {};
+        headers.forEach((h, i) => { headerMap[normalizeHeader(h)] = i; });
 
-  return {
-    rank: Number.isFinite(rank) ? rank : '',
-    name: String(r[nameIdx] || '').trim(),
-    points: String(r[pointsIdx] || '').trim(),
-    max: String(r[maxIdx] || '').trim(),
-    delta,
-    refreshed: refreshedIdx >= 0 ? String(r[refreshedIdx] || '').trim() : ''
-  };
-}).filter(r => r.name);
+        const rankIdx = pickIndex(headerMap, ['rank', 'rnk']);
+        const nameIdx = pickIndex(headerMap, ['name', 'entry', 'entry name', 'player']);
+        const pointsIdx = pickIndex(headerMap, ['pts', 'points', 'score']);
+        const maxIdx = pickIndex(headerMap, ['pts rem', 'pts remaining', 'max', 'max points', 'maxpoints']);
+        const refreshedIdx = pickIndex(headerMap, ['last refreshed', 'refreshed', 'updated']);
+        const prevIdx = pickIndex(headerMap, ['prevrank', 'previous rank']);
+        const deltaIdx = pickIndex(headerMap, ['delta', 'movement']);
 
         if (rankIdx < 0 || nameIdx < 0 || pointsIdx < 0 || maxIdx < 0) {
-  throw new Error('Sheet headers not recognized. Expected rank, name, PTS, and PTS REM.');
-}
+          throw new Error('Sheet headers not recognized. Expected rank, name, PTS, and PTS REM.');
+        }
 
         const cleaned = rows.map(r => {
           const rank = Number(String(r[rankIdx] || '').replace(/[^0-9.-]/g, ''));
           const prevRank = Number(String(r[prevIdx] || '').replace(/[^0-9.-]/g, ''));
-          const delta = deltaIdx >= 0 ? String(r[deltaIdx] || '').trim() : movementFromRanks(rank, prevRank);
+          const delta = deltaIdx >= 0
+            ? String(r[deltaIdx] || '').trim()
+            : movementFromRanks(rank, prevRank);
+
           return {
             rank: Number.isFinite(rank) ? rank : '',
             name: String(r[nameIdx] || '').trim(),
             points: String(r[pointsIdx] || '').trim(),
             max: String(r[maxIdx] || '').trim(),
-            delta
+            delta,
+            refreshed: refreshedIdx >= 0 ? String(r[refreshedIdx] || '').trim() : ''
           };
         }).filter(r => r.name);
 
         document.getElementById('leaderboardCount').textContent = cleaned.length + ' players';
 
         body.innerHTML = '';
+
         cleaned.forEach((row, index) => {
           const el = document.createElement('div');
           el.className = 'lb-row' + (index < 3 ? ' top-' + (index + 1) : '');
@@ -409,59 +463,52 @@
       }
     }
 
-    function isTournamentGame(entry) {
-      const game = entry && entry.game ? entry.game : entry;
-      return !!(game && (game.championshipId || game.bracketId || game.bracketRound || game.championshipGame));
-    }
-
-    function gameStatus(game) {
-      return game.finalMessage || game.startTime || game.gameState || 'Live';
-    }
-
     async function loadScores() {
-  const body = document.getElementById('scoresBody');
-  try {
-    const res = await fetch(CONFIG.scoresUrl + '?t=' + Date.now(), { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+      const body = document.getElementById('scoresBody');
 
-    const data = await res.json();
-    const games = Array.isArray(data.games) ? data.games : [];
+      try {
+        const res = await fetch(CONFIG.scoresUrl + '?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
 
-    document.getElementById('scoresCount').textContent = games.length
-      ? (games.length + ' games')
-      : 'No tournament games';
+        const data = await res.json();
+        const games = Array.isArray(data.games) ? data.games : [];
 
-    body.innerHTML = '';
+        document.getElementById('scoresCount').textContent = games.length
+          ? games.length + ' games'
+          : 'No tournament games';
 
-    if (!games.length) {
-      body.innerHTML = '<div class="message">No men\\'s NCAA tournament games are currently in scores.json.</div>';
-      return;
+        body.innerHTML = '';
+
+        if (!games.length) {
+          body.innerHTML = '<div class="message">No tournament games found in scores.json.</div>';
+          return;
+        }
+
+        games.forEach(game => {
+          const card = document.createElement('div');
+          card.className = 'score-card';
+          card.innerHTML = `
+            <div class="score-top">
+              <div>${game.status || 'Live'}</div>
+              <div>${game.round || 'Tournament'}</div>
+            </div>
+            <div class="team-row">
+              <div class="team-name">${(game.away && game.away.name) || 'Away'}</div>
+              <div class="team-score">${(game.away && game.away.score) ?? ''}</div>
+            </div>
+            <div class="team-row">
+              <div class="team-name">${(game.home && game.home.name) || 'Home'}</div>
+              <div class="team-score">${(game.home && game.home.score) ?? ''}</div>
+            </div>
+          `;
+          body.appendChild(card);
+        });
+      } catch (err) {
+        body.innerHTML = '<div class="message">Scores failed to load: ' + String(err.message || err) + '</div>';
+        document.getElementById('scoresCount').textContent = 'Feed error';
+      }
     }
 
-    games.forEach(game => {
-      const card = document.createElement('div');
-      card.className = 'score-card';
-      card.innerHTML = `
-        <div class="score-top">
-          <div>${game.status || 'Live'}</div>
-          <div>${game.round || 'Tournament'}</div>
-        </div>
-        <div class="team-row">
-          <div class="team-name">${game.away?.name || 'Away'}</div>
-          <div class="team-score">${game.away?.score ?? ''}</div>
-        </div>
-        <div class="team-row">
-          <div class="team-name">${game.home?.name || 'Home'}</div>
-          <div class="team-score">${game.home?.score ?? ''}</div>
-        </div>
-      `;
-      body.appendChild(card);
-    });
-  } catch (err) {
-    body.innerHTML = '<div class="message">Scores failed to load: ' + String(err.message || err) + '</div>';
-    document.getElementById('scoresCount').textContent = 'Feed error';
-  }
-}
     loadLeaderboard();
     loadScores();
     setInterval(() => location.reload(), CONFIG.refreshMs);
