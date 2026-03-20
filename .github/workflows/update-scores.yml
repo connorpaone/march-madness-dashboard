@@ -16,7 +16,7 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
 
-      - name: Fetch NCAA scores for today
+      - name: Fetch NCAA scores for today (UTC date)
         run: |
           YEAR=$(date -u +%Y)
           MONTH=$(date -u +%m)
@@ -59,6 +59,10 @@ jobs:
 
               filtered.append({
                   "status": game.get("finalMessage") or game.get("startTime") or game.get("gameState") or "Live",
+                  "gameState": game.get("gameState", ""),
+                  "currentPeriod": game.get("currentPeriod", ""),
+                  "contestClock": game.get("contestClock", ""),
+                  "startTime": game.get("startTime", ""),
                   "round": (
                       ((game.get("championshipGame") or {}).get("round") or {}).get("title")
                       or game.get("bracketRound")
