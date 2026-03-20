@@ -1,4 +1,197 @@
 {
-  "updatedAt": "",
-  "games": []
+  "updatedAt": "2026-03-20T22:44:19.773191Z",
+  "games": [
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "Santa Clara",
+        "score": "84"
+      },
+      "home": {
+        "name": "Kentucky",
+        "score": "89"
+      }
+    },
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "Akron",
+        "score": "71"
+      },
+      "home": {
+        "name": "Texas Tech",
+        "score": "91"
+      }
+    },
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "LIU",
+        "score": "58"
+      },
+      "home": {
+        "name": "Arizona",
+        "score": "92"
+      }
+    },
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "Wright St.",
+        "score": "73"
+      },
+      "home": {
+        "name": "Virginia",
+        "score": "82"
+      }
+    },
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "Tennessee St.",
+        "score": "74"
+      },
+      "home": {
+        "name": "Iowa St.",
+        "score": "108"
+      }
+    },
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "Hofstra",
+        "score": "70"
+      },
+      "home": {
+        "name": "Alabama",
+        "score": "90"
+      }
+    },
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "Utah St.",
+        "score": "86"
+      },
+      "home": {
+        "name": "Villanova",
+        "score": "76"
+      }
+    },
+    {
+      "status": "FINAL",
+      "round": "First Round",
+      "away": {
+        "name": "Miami (OH)",
+        "score": "56"
+      },
+      "home": {
+        "name": "Tennessee",
+        "score": "78"
+      }
+    },
+    {
+      "status": "6:50 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "Iowa",
+        "score": ""
+      },
+      "home": {
+        "name": "Clemson",
+        "score": ""
+      }
+    },
+    {
+      "status": "7:25 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "UNI",
+        "score": ""
+      },
+      "home": {
+        "name": "St. John's (NY)",
+        "score": ""
+      }
+    },
+    {
+      "status": "7:31 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "UCF",
+        "score": ""
+      },
+      "home": {
+        "name": "UCLA",
+        "score": ""
+      }
+    },
+    {
+      "status": "7:35 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "Queens (NC)",
+        "score": ""
+      },
+      "home": {
+        "name": "Purdue",
+        "score": ""
+      }
+    },
+    {
+      "status": "9:25 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "Prairie View",
+        "score": ""
+      },
+      "home": {
+        "name": "Florida",
+        "score": ""
+      }
+    },
+    {
+      "status": "9:45 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "California Baptist",
+        "score": ""
+      },
+      "home": {
+        "name": "Kansas",
+        "score": ""
+      }
+    },
+    {
+      "status": "10:00 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "Furman",
+        "score": ""
+      },
+      "home": {
+        "name": "UConn",
+        "score": ""
+      }
+    },
+    {
+      "status": "10:10 PM ET",
+      "round": "First Round",
+      "away": {
+        "name": "Missouri",
+        "score": ""
+      },
+      "home": {
+        "name": "Miami (FL)",
+        "score": ""
+      }
+    }
+  ]
 }
