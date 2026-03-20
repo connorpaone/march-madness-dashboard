@@ -1,0 +1,89 @@
+name: Update NCAA Scores
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-scores:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Fetch NCAA scores
+        run: |
+          curl -L "https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1" -o raw_scores.json
+
+      - name: Filter tournament games and write scores.json
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          raw = Path("raw_scores.json")
+          out = Path("scores.json")
+
+          data = json.loads(raw.read_text(encoding="utf-8"))
+          games = data.get("games", [])
+
+          filtered = []
+          for entry in games:
+              game = entry.get("game", entry)
+              if not isinstance(game, dict):
+                  continue
+
+              is_tournament = any([
+                  game.get("championshipId"),
+                  game.get("bracketId"),
+                  game.get("bracketRound"),
+                  game.get("championshipGame"),
+              ])
+
+              if not is_tournament:
+                  continue
+
+              away = game.get("away", {}) or {}
+              home = game.get("home", {}) or {}
+
+              filtered.append({
+                  "status": game.get("finalMessage") or game.get("startTime") or game.get("gameState") or "Live",
+                  "round": (
+                      ((game.get("championshipGame") or {}).get("round") or {}).get("title")
+                      or game.get("bracketRound")
+                      or "Tournament"
+                  ),
+                  "away": {
+                      "name": ((away.get("names") or {}).get("short")
+                               or (away.get("names") or {}).get("char6")
+                               or "Away"),
+                      "score": away.get("score", "")
+                  },
+                  "home": {
+                      "name": ((home.get("names") or {}).get("short")
+                               or (home.get("names") or {}).get("char6")
+                               or "Home"),
+                      "score": home.get("score", "")
+                  }
+              })
+
+          payload = {
+              "updatedAt": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+              "games": filtered
+          }
+
+          out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+          PY
+
+      - name: Commit updated scores.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scores.json
+          git diff --cached --quiet || git commit -m "Update scores.json"
+          git push
