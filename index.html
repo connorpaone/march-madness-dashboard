@@ -25,8 +25,6 @@
       --gold: #c8a227;
       --silver: #9ea3a8;
       --bronze: #b97a2b;
-      --up: #5f8f1f;
-      --down: #9a4b32;
       --text: #2f2f2f;
       --muted: #6f6f6f;
       --card: rgba(255,255,255,0.96);
@@ -86,6 +84,7 @@
     }
 
     .title-wrap { min-width: 0; }
+
     .eyebrow {
       font-size: 11px;
       text-transform: uppercase;
@@ -162,7 +161,7 @@
 
     .lb-head, .lb-row {
       display: grid;
-      grid-template-columns: 74px minmax(180px,1fr) 96px 112px 72px;
+      grid-template-columns: 74px minmax(180px,1fr) 110px 130px;
       gap: 12px;
       align-items: center;
       padding: 0 18px;
@@ -183,10 +182,6 @@
       overflow: auto;
       padding: 10px;
       scroll-behavior: auto;
-    }
-
-    .leaderboard-body {
-      position: relative;
     }
 
     .leaderboard-body::-webkit-scrollbar,
@@ -236,9 +231,6 @@
       text-overflow: ellipsis;
     }
     .metric { text-align: right; font-size: 26px; font-weight: 800; }
-    .delta { text-align: right; font-size: 18px; font-weight: 800; color: var(--slate); }
-    .delta.up { color: var(--up); }
-    .delta.down { color: var(--down); }
 
     .score-grid {
       display: grid;
@@ -307,7 +299,7 @@
     @media (max-width: 1400px) {
       .content { grid-template-columns: 54% 46%; }
       .lb-head, .lb-row {
-        grid-template-columns: 64px minmax(140px,1fr) 84px 100px 64px;
+        grid-template-columns: 64px minmax(140px,1fr) 96px 110px;
         gap: 10px;
       }
       .name { font-size: 21px; }
@@ -346,7 +338,6 @@
           <div>Name</div>
           <div style="text-align:right;">PTS</div>
           <div style="text-align:right;">PTS REM</div>
-          <div style="text-align:right;">Δ</div>
         </div>
 
         <div class="leaderboard-body" id="leaderboardBody">
@@ -434,19 +425,6 @@
       return -1;
     }
 
-    function movementFromRanks(rank, prevRank) {
-      if (!Number.isFinite(rank) || !Number.isFinite(prevRank)) return '—';
-      if (rank < prevRank) return '↑' + (prevRank - rank);
-      if (rank > prevRank) return '↓' + (rank - prevRank);
-      return '—';
-    }
-
-    function deltaClass(delta) {
-      if (String(delta).includes('↑')) return 'up';
-      if (String(delta).includes('↓')) return 'down';
-      return '';
-    }
-
     function stopLeaderboardAutoScroll() {
       if (leaderboardScrollTimer) {
         clearInterval(leaderboardScrollTimer);
@@ -497,29 +475,18 @@
         const pointsIdx = pickIndex(headerMap, ['pts', 'points', 'score']);
         const maxIdx = pickIndex(headerMap, ['pts rem', 'pts remaining', 'max', 'max points', 'maxpoints']);
         const refreshedIdx = pickIndex(headerMap, ['last refreshed', 'refreshed', 'updated']);
-        const prevIdx = pickIndex(headerMap, ['prevrank', 'previous rank']);
-        const deltaIdx = pickIndex(headerMap, ['delta', 'movement']);
 
         if (rankIdx < 0 || nameIdx < 0 || pointsIdx < 0 || maxIdx < 0) {
           throw new Error('Sheet headers not recognized. Expected rank, name, PTS, and PTS REM.');
         }
 
-        const cleaned = rows.map(r => {
-          const rank = Number(String(r[rankIdx] || '').replace(/[^0-9.-]/g, ''));
-          const prevRank = Number(String(r[prevIdx] || '').replace(/[^0-9.-]/g, ''));
-          const delta = deltaIdx >= 0
-            ? String(r[deltaIdx] || '').trim()
-            : movementFromRanks(rank, prevRank);
-
-          return {
-            rank: Number.isFinite(rank) ? rank : '',
-            name: String(r[nameIdx] || '').trim(),
-            points: String(r[pointsIdx] || '').trim(),
-            max: String(r[maxIdx] || '').trim(),
-            delta,
-            refreshed: refreshedIdx >= 0 ? String(r[refreshedIdx] || '').trim() : ''
-          };
-        }).filter(r => r.name);
+        const cleaned = rows.map(r => ({
+          rank: String(r[rankIdx] || '').trim(),
+          name: String(r[nameIdx] || '').trim(),
+          points: String(r[pointsIdx] || '').trim(),
+          max: String(r[maxIdx] || '').trim(),
+          refreshed: refreshedIdx >= 0 ? String(r[refreshedIdx] || '').trim() : ''
+        })).filter(r => r.name);
 
         document.getElementById('leaderboardCount').textContent = cleaned.length + ' players';
         const latestRefresh = cleaned.find(r => r.refreshed)?.refreshed || '--';
@@ -535,7 +502,6 @@
             <div class="name">${row.name}</div>
             <div class="metric">${row.points}</div>
             <div class="metric">${row.max}</div>
-            <div class="delta ${deltaClass(row.delta)}">${row.delta || '—'}</div>
           `;
           body.appendChild(el);
         });
@@ -554,6 +520,12 @@
       }
     }
 
+    function scoreValue(side) {
+      if (!side) return '—';
+      if (side.score === '' || side.score === null || side.score === undefined) return '—';
+      return side.score;
+    }
+
     async function loadScores() {
       const body = document.getElementById('scoresBody');
 
@@ -563,9 +535,10 @@
 
         const data = await res.json();
         const games = Array.isArray(data.games) ? data.games : [];
+        const updatedAt = data.updatedAt || '';
 
         document.getElementById('scoresCount').textContent = games.length
-          ? games.length + ' games'
+          ? `${games.length} games${updatedAt ? ' • updated ' + new Date(updatedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : ''}`
           : 'No tournament games';
 
         body.innerHTML = '';
@@ -588,11 +561,11 @@
             </div>
             <div class="team-row">
               <div class="team-name">${(game.away && game.away.name) || 'Away'}</div>
-              <div class="team-score">${(game.away && game.away.score) ?? ''}</div>
+              <div class="team-score">${scoreValue(game.away)}</div>
             </div>
             <div class="team-row">
               <div class="team-name">${(game.home && game.home.name) || 'Home'}</div>
-              <div class="team-score">${(game.home && game.home.score) ?? ''}</div>
+              <div class="team-score">${scoreValue(game.home)}</div>
             </div>
           `;
           grid.appendChild(card);
