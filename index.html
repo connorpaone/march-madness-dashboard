@@ -350,19 +350,26 @@
         const text = await res.text();
         const { headers, rows } = parseCsv(text);
 
-        const headerMap = {};
-        headers.forEach((h, i) => { headerMap[normalizeHeader(h)] = i; });
+        const cleaned = rows.map(r => {
+  const rank = Number(String(r[rankIdx] || '').replace(/[^0-9.-]/g, ''));
+  const prevRank = Number(String(r[prevIdx] || '').replace(/[^0-9.-]/g, ''));
+  const delta = deltaIdx >= 0
+    ? String(r[deltaIdx] || '').trim()
+    : movementFromRanks(rank, prevRank);
 
-        const rankIdx = pickIndex(headerMap, ['Rank', 'Rnk']);
-        const nameIdx = pickIndex(headerMap, ['Name', 'Entry', 'Entry Name', 'Player']);
-        const pointsIdx = pickIndex(headerMap, ['Points', 'Pts']);
-        const maxIdx = pickIndex(headerMap, ['MaxPoints', 'Max Points', 'Max', 'Pts Remaining']);
-        const prevIdx = pickIndex(headerMap, ['PrevRank', 'Previous Rank']);
-        const deltaIdx = pickIndex(headerMap, ['Delta', 'Movement']);
+  return {
+    rank: Number.isFinite(rank) ? rank : '',
+    name: String(r[nameIdx] || '').trim(),
+    points: String(r[pointsIdx] || '').trim(),
+    max: String(r[maxIdx] || '').trim(),
+    delta,
+    refreshed: refreshedIdx >= 0 ? String(r[refreshedIdx] || '').trim() : ''
+  };
+}).filter(r => r.name);
 
         if (rankIdx < 0 || nameIdx < 0 || pointsIdx < 0 || maxIdx < 0) {
-          throw new Error('Sheet headers not recognized. Expected Rank, Name, Points, MaxPoints.');
-        }
+  throw new Error('Sheet headers not recognized. Expected rank, name, PTS, and PTS REM.');
+}
 
         const cleaned = rows.map(r => {
           const rank = Number(String(r[rankIdx] || '').replace(/[^0-9.-]/g, ''));
