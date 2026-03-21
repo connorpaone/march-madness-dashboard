@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-21T22:53:52.910713+00:00",
+  "updatedAt": "2026-03-21T23:49:29.243054+00:00",
   "games": [
     {
       "status": "FINAL",
@@ -34,59 +34,59 @@
       }
     },
     {
-      "status": "2ND HALF",
-      "gameState": "live",
-      "currentPeriod": "2nd",
-      "contestClock": "16:11",
+      "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
       "startTime": "5:25 PM ET",
       "round": "Second Round",
       "away": {
         "name": "TCU",
-        "score": "40"
+        "score": "58"
       },
       "home": {
         "name": "Duke",
-        "score": "38"
+        "score": "81"
+      }
+    },
+    {
+      "status": "2ND HALF",
+      "gameState": "live",
+      "currentPeriod": "2nd",
+      "contestClock": "12:31",
+      "startTime": "6:10 PM ET",
+      "round": "Second Round",
+      "away": {
+        "name": "Texas A&M",
+        "score": "39"
+      },
+      "home": {
+        "name": "Houston",
+        "score": "61"
       }
     },
     {
       "status": "1ST HALF",
       "gameState": "live",
       "currentPeriod": "1st",
-      "contestClock": "05:56",
-      "startTime": "6:10 PM ET",
-      "round": "Second Round",
-      "away": {
-        "name": "Texas A&M",
-        "score": "24"
-      },
-      "home": {
-        "name": "Houston",
-        "score": "29"
-      }
-    },
-    {
-      "status": "7:10 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
+      "contestClock": "01:06",
       "startTime": "7:10 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Texas",
-        "score": ""
+        "score": "30"
       },
       "home": {
         "name": "Gonzaga",
-        "score": ""
+        "score": "33"
       }
     },
     {
-      "status": "7:50 PM ET",
+      "status": "8:15 PM ET",
       "gameState": "pre",
       "currentPeriod": "",
       "contestClock": "0:00",
-      "startTime": "7:50 PM ET",
+      "startTime": "8:15 PM ET",
       "round": "Second Round",
       "away": {
         "name": "VCU",
