@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-21T19:59:46.717620+00:00",
+  "updatedAt": "2026-03-21T20:55:48.053380+00:00",
   "games": [
     {
       "status": "FINAL",
@@ -21,16 +21,16 @@
       "status": "2ND HALF",
       "gameState": "live",
       "currentPeriod": "2nd",
-      "contestClock": "18:20",
+      "contestClock": "01:00",
       "startTime": "2:48 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Louisville",
-        "score": "33"
+        "score": "62"
       },
       "home": {
         "name": "Michigan St.",
-        "score": "42"
+        "score": "73"
       }
     },
     {
