@@ -1,20 +1,20 @@
 {
-  "updatedAt": "2026-03-21T15:50:38.211872+00:00",
+  "updatedAt": "2026-03-21T16:58:03.411377+00:00",
   "games": [
     {
-      "status": "12:10 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "01:54",
       "startTime": "12:10 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Saint Louis",
-        "score": ""
+        "score": "34"
       },
       "home": {
         "name": "Michigan",
-        "score": ""
+        "score": "44"
       }
     },
     {
