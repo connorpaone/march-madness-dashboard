@@ -1,36 +1,36 @@
 {
-  "updatedAt": "2026-03-21T17:54:01.174065+00:00",
+  "updatedAt": "2026-03-21T19:04:09.729642+00:00",
   "games": [
     {
-      "status": "2ND HALF",
-      "gameState": "live",
-      "currentPeriod": "2nd",
-      "contestClock": "09:21",
+      "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
       "startTime": "12:10 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Saint Louis",
-        "score": "61"
+        "score": "72"
       },
       "home": {
         "name": "Michigan",
-        "score": "75"
+        "score": "95"
       }
     },
     {
-      "status": "2:45 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
-      "startTime": "2:45 PM ET",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "11:55",
+      "startTime": "2:48 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Louisville",
-        "score": ""
+        "score": "12"
       },
       "home": {
         "name": "Michigan St.",
-        "score": ""
+        "score": "19"
       }
     },
     {
