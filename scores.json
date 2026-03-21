@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-21T20:55:48.053380+00:00",
+  "updatedAt": "2026-03-21T21:50:10.703411+00:00",
   "games": [
     {
       "status": "FINAL",
@@ -18,35 +18,35 @@
       }
     },
     {
-      "status": "2ND HALF",
-      "gameState": "live",
-      "currentPeriod": "2nd",
-      "contestClock": "01:00",
+      "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
       "startTime": "2:48 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Louisville",
-        "score": "62"
+        "score": "69"
       },
       "home": {
         "name": "Michigan St.",
-        "score": "73"
+        "score": "77"
       }
     },
     {
-      "status": "5:15 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
-      "startTime": "5:15 PM ET",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "10:08",
+      "startTime": "5:25 PM ET",
       "round": "Second Round",
       "away": {
         "name": "TCU",
-        "score": ""
+        "score": "20"
       },
       "home": {
         "name": "Duke",
-        "score": ""
+        "score": "19"
       }
     },
     {
