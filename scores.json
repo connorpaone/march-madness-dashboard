@@ -1,36 +1,36 @@
 {
-  "updatedAt": "2026-03-22T17:54:16.811125+00:00",
+  "updatedAt": "2026-03-22T19:05:42.943275+00:00",
   "games": [
     {
-      "status": "2ND HALF",
-      "gameState": "live",
-      "currentPeriod": "2nd",
-      "contestClock": "07:38",
+      "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
       "startTime": "12:10 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Miami (FL)",
-        "score": "54"
+        "score": "69"
       },
       "home": {
         "name": "Purdue",
-        "score": "62"
+        "score": "79"
       }
     },
     {
-      "status": "2:45 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
-      "startTime": "2:45 PM ET",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "11:43",
+      "startTime": "2:49 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Kentucky",
-        "score": ""
+        "score": "20"
       },
       "home": {
         "name": "Iowa St.",
-        "score": ""
+        "score": "9"
       }
     },
     {
