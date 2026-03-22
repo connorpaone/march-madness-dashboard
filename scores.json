@@ -1,20 +1,20 @@
 {
-  "updatedAt": "2026-03-22T16:58:50.898585+00:00",
+  "updatedAt": "2026-03-22T17:54:16.811125+00:00",
   "games": [
     {
-      "status": "HALF",
+      "status": "2ND HALF",
       "gameState": "live",
-      "currentPeriod": "HALFTIME",
-      "contestClock": "0:00",
+      "currentPeriod": "2nd",
+      "contestClock": "07:38",
       "startTime": "12:10 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Miami (FL)",
-        "score": "40"
+        "score": "54"
       },
       "home": {
         "name": "Purdue",
-        "score": "38"
+        "score": "62"
       }
     },
     {
