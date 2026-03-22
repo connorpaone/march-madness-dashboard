@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-22T22:56:19.447588+00:00",
+  "updatedAt": "2026-03-22T23:56:57.805378+00:00",
   "games": [
     {
       "status": "FINAL",
@@ -34,59 +34,59 @@
       }
     },
     {
-      "status": "2ND HALF",
-      "gameState": "live",
-      "currentPeriod": "2nd",
-      "contestClock": "13:32",
+      "status": "FINAL",
+      "gameState": "final",
+      "currentPeriod": "FINAL",
+      "contestClock": "0:00",
       "startTime": "5:25 PM ET",
       "round": "Second Round",
       "away": {
         "name": "St. John's (NY)",
-        "score": "47"
+        "score": "67"
       },
       "home": {
         "name": "Kansas",
-        "score": "37"
+        "score": "65"
+      }
+    },
+    {
+      "status": "2ND HALF",
+      "gameState": "live",
+      "currentPeriod": "2nd",
+      "contestClock": "08:37",
+      "startTime": "6:10 PM ET",
+      "round": "Second Round",
+      "away": {
+        "name": "Tennessee",
+        "score": "62"
+      },
+      "home": {
+        "name": "Virginia",
+        "score": "55"
       }
     },
     {
       "status": "1ST HALF",
       "gameState": "live",
       "currentPeriod": "1st",
-      "contestClock": "01:55",
-      "startTime": "6:10 PM ET",
-      "round": "Second Round",
-      "away": {
-        "name": "Tennessee",
-        "score": "35"
-      },
-      "home": {
-        "name": "Virginia",
-        "score": "27"
-      }
-    },
-    {
-      "status": "7:10 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
+      "contestClock": "02:54",
       "startTime": "7:10 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Iowa",
-        "score": ""
+        "score": "28"
       },
       "home": {
         "name": "Florida",
-        "score": ""
+        "score": "25"
       }
     },
     {
-      "status": "7:50 PM ET",
+      "status": "8:11 PM ET",
       "gameState": "pre",
       "currentPeriod": "",
       "contestClock": "0:00",
-      "startTime": "7:50 PM ET",
+      "startTime": "8:11 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Utah St.",
