@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-22T19:05:42.943275+00:00",
+  "updatedAt": "2026-03-22T19:49:05.146795+00:00",
   "games": [
     {
       "status": "FINAL",
@@ -18,19 +18,19 @@
       }
     },
     {
-      "status": "1ST HALF",
+      "status": "HALF",
       "gameState": "live",
-      "currentPeriod": "1st",
-      "contestClock": "11:43",
+      "currentPeriod": "HALFTIME",
+      "contestClock": "0:00",
       "startTime": "2:49 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Kentucky",
-        "score": "20"
+        "score": "30"
       },
       "home": {
         "name": "Iowa St.",
-        "score": "9"
+        "score": "31"
       }
     },
     {
