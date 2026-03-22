@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-22T21:52:58.170214+00:00",
+  "updatedAt": "2026-03-22T22:56:19.447588+00:00",
   "games": [
     {
       "status": "FINAL",
@@ -34,35 +34,35 @@
       }
     },
     {
-      "status": "1ST HALF",
+      "status": "2ND HALF",
       "gameState": "live",
-      "currentPeriod": "1st",
-      "contestClock": "08:55",
+      "currentPeriod": "2nd",
+      "contestClock": "13:32",
       "startTime": "5:25 PM ET",
       "round": "Second Round",
       "away": {
         "name": "St. John's (NY)",
-        "score": "16"
+        "score": "47"
       },
       "home": {
         "name": "Kansas",
-        "score": "12"
+        "score": "37"
       }
     },
     {
-      "status": "6:10 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
+      "status": "1ST HALF",
+      "gameState": "live",
+      "currentPeriod": "1st",
+      "contestClock": "01:55",
       "startTime": "6:10 PM ET",
       "round": "Second Round",
       "away": {
         "name": "Tennessee",
-        "score": ""
+        "score": "35"
       },
       "home": {
         "name": "Virginia",
-        "score": ""
+        "score": "27"
       }
     },
     {
