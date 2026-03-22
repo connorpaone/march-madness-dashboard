@@ -1,99 +1,99 @@
 {
-  "updatedAt": "2026-03-21T23:49:29.243054+00:00",
+  "updatedAt": "2026-03-22T05:11:27.638487+00:00",
   "games": [
     {
-      "status": "FINAL",
-      "gameState": "final",
-      "currentPeriod": "FINAL",
+      "status": "12:10 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
       "contestClock": "0:00",
       "startTime": "12:10 PM ET",
       "round": "Second Round",
       "away": {
-        "name": "Saint Louis",
-        "score": "72"
-      },
-      "home": {
-        "name": "Michigan",
-        "score": "95"
-      }
-    },
-    {
-      "status": "FINAL",
-      "gameState": "final",
-      "currentPeriod": "FINAL",
-      "contestClock": "0:00",
-      "startTime": "2:48 PM ET",
-      "round": "Second Round",
-      "away": {
-        "name": "Louisville",
-        "score": "69"
-      },
-      "home": {
-        "name": "Michigan St.",
-        "score": "77"
-      }
-    },
-    {
-      "status": "FINAL",
-      "gameState": "final",
-      "currentPeriod": "FINAL",
-      "contestClock": "0:00",
-      "startTime": "5:25 PM ET",
-      "round": "Second Round",
-      "away": {
-        "name": "TCU",
-        "score": "58"
-      },
-      "home": {
-        "name": "Duke",
-        "score": "81"
-      }
-    },
-    {
-      "status": "2ND HALF",
-      "gameState": "live",
-      "currentPeriod": "2nd",
-      "contestClock": "12:31",
-      "startTime": "6:10 PM ET",
-      "round": "Second Round",
-      "away": {
-        "name": "Texas A&M",
-        "score": "39"
-      },
-      "home": {
-        "name": "Houston",
-        "score": "61"
-      }
-    },
-    {
-      "status": "1ST HALF",
-      "gameState": "live",
-      "currentPeriod": "1st",
-      "contestClock": "01:06",
-      "startTime": "7:10 PM ET",
-      "round": "Second Round",
-      "away": {
-        "name": "Texas",
-        "score": "30"
-      },
-      "home": {
-        "name": "Gonzaga",
-        "score": "33"
-      }
-    },
-    {
-      "status": "8:15 PM ET",
-      "gameState": "pre",
-      "currentPeriod": "",
-      "contestClock": "0:00",
-      "startTime": "8:15 PM ET",
-      "round": "Second Round",
-      "away": {
-        "name": "VCU",
+        "name": "Miami (FL)",
         "score": ""
       },
       "home": {
-        "name": "Illinois",
+        "name": "Purdue",
+        "score": ""
+      }
+    },
+    {
+      "status": "2:45 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "2:45 PM ET",
+      "round": "Second Round",
+      "away": {
+        "name": "Kentucky",
+        "score": ""
+      },
+      "home": {
+        "name": "Iowa St.",
+        "score": ""
+      }
+    },
+    {
+      "status": "5:15 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "5:15 PM ET",
+      "round": "Second Round",
+      "away": {
+        "name": "St. John's (NY)",
+        "score": ""
+      },
+      "home": {
+        "name": "Kansas",
+        "score": ""
+      }
+    },
+    {
+      "status": "6:10 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "6:10 PM ET",
+      "round": "Second Round",
+      "away": {
+        "name": "Tennessee",
+        "score": ""
+      },
+      "home": {
+        "name": "Virginia",
+        "score": ""
+      }
+    },
+    {
+      "status": "7:10 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "7:10 PM ET",
+      "round": "Second Round",
+      "away": {
+        "name": "Iowa",
+        "score": ""
+      },
+      "home": {
+        "name": "Florida",
+        "score": ""
+      }
+    },
+    {
+      "status": "7:50 PM ET",
+      "gameState": "pre",
+      "currentPeriod": "",
+      "contestClock": "0:00",
+      "startTime": "7:50 PM ET",
+      "round": "Second Round",
+      "away": {
+        "name": "Utah St.",
+        "score": ""
+      },
+      "home": {
+        "name": "Arizona",
         "score": ""
       }
     },
@@ -105,11 +105,11 @@
       "startTime": "8:45 PM ET",
       "round": "Second Round",
       "away": {
-        "name": "Vanderbilt",
+        "name": "UCLA",
         "score": ""
       },
       "home": {
-        "name": "Nebraska",
+        "name": "UConn",
         "score": ""
       }
     },
@@ -121,11 +121,11 @@
       "startTime": "9:45 PM ET",
       "round": "Second Round",
       "away": {
-        "name": "High Point",
+        "name": "Texas Tech",
         "score": ""
       },
       "home": {
-        "name": "Arkansas",
+        "name": "Alabama",
         "score": ""
       }
     }
